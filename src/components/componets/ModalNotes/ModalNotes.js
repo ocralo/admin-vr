@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 export default function ModalNotes({ userData, questions }) {
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function ModalNotes({ userData, questions }) {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div className="modal-body">
+          <div className="modal-body overflow-auto">
             <h3>Preguntas de seleccion multiple</h3>
             <ul>
               {Object.values(userData?.answers).map((value1, i) => {

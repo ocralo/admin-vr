@@ -19,7 +19,7 @@ export default function Login() {
       .then((resolve) => {
         /* console.log(resolve.user.email); */
         console.log(resolve.user.email);
-        localStorage.setItem("email",resolve.user.email);
+        localStorage.setItem("email", resolve.user.email);
         history.push("/home");
       })
       .catch(function (error) {
@@ -32,7 +32,7 @@ export default function Login() {
   function handleChangeInput(e) {
     const inputName = e.target.name;
     const inputValue = e.target.value;
-    inputName == "userName"
+    inputName === "userName"
       ? setUser({ ...User, userName: inputValue })
       : setUser({ ...User, password: inputValue });
   }
@@ -41,7 +41,14 @@ export default function Login() {
     <div className="container-fluid vh-100">
       <div className="row justify-content-center h-100">
         <div className="col-md-6 d-flex align-items-center">
-          <div className="card shadow w-100" style={{ height: "16em" }}>
+          <div className="card shadow w-100" style={{ height: "26em" }}>
+            <div className="card-header d-flex justify-content-center bg-white border-bottom-0">
+              <img
+                src={`${process.env.PUBLIC_URL}/img/kaleidolab.jpg`}
+                alt=""
+                width="300"
+              />
+            </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">

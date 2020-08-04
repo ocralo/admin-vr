@@ -8,7 +8,11 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/home">
-        Empresa
+        <img
+          src={`${process.env.PUBLIC_URL}/img/kaleidolab.jpg`}
+          alt=""
+          width="120"
+        />
       </Link>
       <button
         className="navbar-toggler"
@@ -25,8 +29,13 @@ export default function Navbar() {
       <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
           <li className="nav-item active">
-            <Link className="nav-link" to="/">
-              Home <span className="sr-only">(current)</span>
+            <Link className="nav-link" to="/home">
+              Calificacion de usuario <span className="sr-only">(current)</span>
+            </Link>
+          </li>
+          <li className="nav-item active">
+            <Link className="nav-link" to="/rate">
+              Calificar video <span className="sr-only">(current)</span>
             </Link>
           </li>
           {/* <li className="nav-item">
