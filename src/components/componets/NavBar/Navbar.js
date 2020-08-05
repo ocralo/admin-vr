@@ -68,6 +68,7 @@ export default function Navbar() {
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <Link
               className="dropdown-item"
+              to=""
               onClick={() => {
                 firebase
                   .auth()

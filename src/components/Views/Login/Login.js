@@ -41,13 +41,18 @@ export default function Login() {
     <div className="container-fluid vh-100">
       <div className="row justify-content-center h-100">
         <div className="col-md-6 d-flex align-items-center">
-          <div className="card shadow w-100" style={{ height: "26em" }}>
-            <div className="card-header d-flex justify-content-center bg-white border-bottom-0">
+          <div className="card shadow w-100" style={{ height: "35em" }}>
+            <div className="card-header d-flex flex-column align-items-center justify-content-center bg-white border-bottom-0">
               <img
                 src={`${process.env.PUBLIC_URL}/img/kaleidolab.jpg`}
                 alt=""
                 width="300"
               />
+              <h3>Assessment VR (administrador)</h3>
+              <p className="text-center">
+                La experiencia de realidad virtual para desarrollar y aplicar
+                evaluaciones de comportamientos ante situaciones inesperadas
+              </p>
             </div>
             <div className="card-body">
               <form onSubmit={handleSubmit}>

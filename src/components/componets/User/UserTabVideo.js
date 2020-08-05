@@ -21,7 +21,7 @@ export default function UserTabVideo({ UsersData, questions }) {
   };
   return (
     <>
-      <ModalRateVideo userData={UserData} questions={questions}></ModalRateVideo>
+      <ModalRateVideo userData={UserData}></ModalRateVideo>
       <div className="table-responsive-lg">
         <table className="table">
           <thead className="thead-dark">
@@ -36,7 +36,7 @@ export default function UserTabVideo({ UsersData, questions }) {
           <tbody>
             {Object.values(UsersData).map((value, i) => {
               return (
-                <tr>
+                <tr key={`userRow${i}`}>
                   <th scope="row">{i + 1}</th>
                   <td>{value.name}</td>
                   <td>{value.lastName}</td>
