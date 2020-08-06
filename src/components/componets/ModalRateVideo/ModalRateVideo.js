@@ -1,29 +1,43 @@
 import React, { useState, useEffect } from "react";
 
-import { Player } from "video-react";
-import "video-react/dist/video-react.css";
+import firebase from "firebase";
 
-export default function ModalRateVideo({ userData, questions }) {
-  useEffect(() => {
-    console.log(questions);
-    console.log(userData);
-  }, [questions, userData]);
-  const [rateVideo, setrateVideo] = useState({
-    "1": 0,
-    "2": 0,
-    "3": 0,
-    "4": 0,
-  });
+export default function ModalRateVideo({ userData }) {
+  useEffect(() => {}, [userData]);
+
+  const [rateVideo, setrateVideo] = useState([]);
+  const [numberQuestion, setNumberQuestion] = useState(1);
+
+  const db = firebase.database();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(numberQuestion+1);
+    let auxData = { ...userData?.answers };
+    auxData[numberQuestion+1].rating =
+      Object.values(rateVideo[numberQuestion]).reduce(
+        (valorAnterior, valorActual, indice, vector) => {
+          if (Object.values(rateVideo[numberQuestion]).length - 1 !== indice) {
+            return parseInt(valorAnterior) + parseInt(valorActual);
+          }
+          return parseInt(valorAnterior);
+        }
+      ) / 4;
+    auxData[numberQuestion+1].comments =
+      rateVideo[numberQuestion][
+        Object.values(rateVideo[numberQuestion]).length
+      ];
+
+    db.ref(`users/${userData.name}123456`).update({ answers: auxData });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e, i) => {
     const name = e.target.name;
-    const value = parseInt(e.target.value);
-    let aux = { ...rateVideo, [name]: value };
-    setrateVideo(aux);
+    const value = e.target.value;
+    let auxArray = [...rateVideo];
+    auxArray[i] = { ...auxArray[i], [name]: value };
+    setNumberQuestion(i);
+    setrateVideo(auxArray);
   };
 
   return (
@@ -54,12 +68,10 @@ export default function ModalRateVideo({ userData, questions }) {
             <div className="modal-body overflow-auto">
               <h3>Preguntas de video</h3>
               <div className="accordion" id="accordionExample">
-                {console.log(userData?.answers[1]?.url)}
                 {userData?.answers.map((data, i) => {
-                  console.log(data);
                   return (
                     <>
-                      {(!data?.url&&data?.url!=="") || (
+                      {!data?.url || (
                         <div className="card" key={`userAcordion-${i}`}>
                           <div className="card-header" id="headingOne">
                             <h2 className="mb-0">
@@ -71,7 +83,7 @@ export default function ModalRateVideo({ userData, questions }) {
                                 aria-expanded="true"
                                 aria-controls="collapseOne"
                               >
-                                Pregunta #{i}
+                                Video #{i}
                               </button>
                             </h2>
                           </div>
@@ -86,7 +98,7 @@ export default function ModalRateVideo({ userData, questions }) {
                               <div className="container-fluid">
                                 <div className="row">
                                   <div className="col-md-6">
-                                    <video width="320" height="240" controls>
+                                    <video className="w-100" controls>
                                       <source
                                         src={
                                           data?.url ||
@@ -97,32 +109,22 @@ export default function ModalRateVideo({ userData, questions }) {
                                       Your browser does not support the video
                                       tag.
                                     </video>
-                                    {/* <Player>
-                                  <source
-                                    src={
-                                      data?.url ||
-                                      "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-                                    }
-                                    /*src = {
-                        userData.answers
-                          ? "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-                          : userData.answers[1].url
-                      } 
-                                  />
-                                </Player> */}
                                   </div>
                                   <div className="col-md-6">
                                     <form onSubmit={handleSubmit}>
                                       <div className="form-group">
                                         <label htmlFor="presentacion">
-                                          Cuenta con buena presentacion
+                                          Orientación al logro
                                         </label>
                                         <select
                                           className="form-control"
                                           id="presentacion"
                                           name="1"
-                                          onChange={handleChange}
+                                          onChange={(e) =>
+                                            handleChange(e, i - 1)
+                                          }
                                         >
+                                          <option></option>
                                           <option>1</option>
                                           <option>2</option>
                                           <option>3</option>
@@ -132,14 +134,17 @@ export default function ModalRateVideo({ userData, questions }) {
                                       </div>
                                       <div className="form-group">
                                         <label htmlFor="fluides">
-                                          Se distre facilmente
+                                          Flexibilidad
                                         </label>
                                         <select
                                           className="form-control"
                                           id="fluides"
                                           name="2"
-                                          onChange={handleChange}
+                                          onChange={(e) =>
+                                            handleChange(e, i - 1)
+                                          }
                                         >
+                                          <option></option>
                                           <option>1</option>
                                           <option>2</option>
                                           <option>3</option>
@@ -149,14 +154,17 @@ export default function ModalRateVideo({ userData, questions }) {
                                       </div>
                                       <div className="form-group">
                                         <label htmlFor="presentation">
-                                          Cuenta con buen nivel al hablar
+                                          Inteligencia emocional
                                         </label>
                                         <select
                                           className="form-control"
                                           id="presentation"
                                           name="3"
-                                          onChange={handleChange}
+                                          onChange={(e) =>
+                                            handleChange(e, i - 1)
+                                          }
                                         >
+                                          <option></option>
                                           <option>1</option>
                                           <option>2</option>
                                           <option>3</option>
@@ -166,14 +174,17 @@ export default function ModalRateVideo({ userData, questions }) {
                                       </div>
                                       <div className="form-group">
                                         <label htmlFor="exampleFormControlSelect1">
-                                          Tiene fluides al hablar
+                                          Tenacidad
                                         </label>
                                         <select
                                           className="form-control"
                                           id="exampleFormControlSelect1"
                                           name="4"
-                                          onChange={handleChange}
+                                          onChange={(e) =>
+                                            handleChange(e, i - 1)
+                                          }
                                         >
+                                          <option></option>
                                           <option>1</option>
                                           <option>2</option>
                                           <option>3</option>
@@ -181,11 +192,25 @@ export default function ModalRateVideo({ userData, questions }) {
                                           <option>5</option>
                                         </select>
                                       </div>
+                                      <div className="form-group">
+                                        <label htmlFor="exampleFormControlTextarea1">
+                                          Observaciones
+                                        </label>
+                                        <textarea
+                                          className="form-control"
+                                          id="exampleFormControlTextarea1"
+                                          name="5"
+                                          onChange={(e) =>
+                                            handleChange(e, i - 1)
+                                          }
+                                          rows="3"
+                                        ></textarea>
+                                      </div>
                                       <button
                                         type="submit"
                                         className="btn btn-primary btn-lg btn-block"
                                       >
-                                        Submit
+                                        Guardar
                                       </button>
                                     </form>
                                   </div>

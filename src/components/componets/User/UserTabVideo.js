@@ -10,8 +10,11 @@ export default function UserTabVideo({ UsersData, questions }) {
     answers: [{ rating: 0, option: "" }],
   });
 
-  const changeUser = (user) => {
+  const [numberQuestion, setNumberQuestion] = useState(0);
+
+  const changeUser = (user, i) => {
     setUserData(user);
+    setNumberQuestion(i);
   };
   const rating = (jsonFirebase) => {
     return Object.values(jsonFirebase)
@@ -21,7 +24,10 @@ export default function UserTabVideo({ UsersData, questions }) {
   };
   return (
     <>
-      <ModalRateVideo userData={UserData}></ModalRateVideo>
+      <ModalRateVideo
+        userData={UserData}
+        numberQuestion={numberQuestion}
+      ></ModalRateVideo>
       <div className="table-responsive-lg">
         <table className="table">
           <thead className="thead-dark">
@@ -48,7 +54,7 @@ export default function UserTabVideo({ UsersData, questions }) {
                       data-toggle="modal"
                       data-target="#videoModal"
                       onClick={() => {
-                        changeUser(value);
+                        changeUser(value, i);
                       }}
                     >
                       Calificar Video

@@ -36,31 +36,39 @@ export default function ModalNotes({ userData, questions }) {
                   <li>
                     {i + 1}-
                     {Array.isArray(questions) ? questions[i + 1].question : ""}
-                    {Array.isArray(questions)
-                      ? Object.entries(questions[i + 1].options).map(
-                          (value, i) => {
-                            return (
-                              <ul>
-                                {value1.option === value[0] ? (
-                                  value1.rating !== 1 ? (
-                                    <li className="bg-danger">
-                                      {value[0]} - {value[1]}
-                                    </li>
-                                  ) : (
-                                    <li className="bg-success">
-                                      {value[0]} - {value[1]}
-                                    </li>
-                                  )
-                                ) : (
-                                  <li>
-                                    {value[0]} - {value[1]}
-                                  </li>
-                                )}
-                              </ul>
-                            );
-                          }
-                        )
-                      : ""}
+                    <br />
+                    <p>
+                      Puntuacion: <b>{`${value1.rating}`}</b>
+                    </p>
+                    {Array.isArray(questions) && value1.rating <= 1 ? (
+                      Object.entries(questions[i + 1].options).map((value) => {
+                        return (
+                          <ul>
+                            {value1.option === value[0] ? (
+                              value1.rating !== 1 ? (
+                                <li className="bg-danger">
+                                  {value[0]} - {value[1]}
+                                </li>
+                              ) : (
+                                <li className="bg-success">
+                                  {value[0]} - {value[1]}
+                                </li>
+                              )
+                            ) : (
+                              <li>
+                                {value[0]} - {value[1]}
+                              </li>
+                            )}
+                          </ul>
+                        );
+                      })
+                    ) : (
+                      <>
+                        <p>
+                          Comentarios: <b>{value1?.comments}</b>
+                        </p>
+                      </>
+                    )}
                   </li>
                 );
               })}
