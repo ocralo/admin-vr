@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 //import modal
 import ModalNotes from "../ModalNotes/ModalNotes";
@@ -11,13 +11,22 @@ export default function UserTab({ UsersData, questions }) {
   });
 
   const changeUser = (user) => {
+    //console.log(user);
     setUserData(user);
   };
+
+  useEffect(() => {
+    console.log("hola");
+  }, [UserData]);
   const rating = (jsonFirebase) => {
     return Object.values(jsonFirebase)
       .map((value) => value)
       .map((value) => value.rating)
-      .reduce((accumulator, currentValue) => accumulator + currentValue);
+      .reduce((accumulator, currentValue, indice, vector) => {
+        let auxCurrentValue = 0;
+        currentValue ? (auxCurrentValue = currentValue) : (auxCurrentValue = 0);
+        return accumulator + auxCurrentValue;
+      });
   };
   return (
     <>
@@ -36,7 +45,7 @@ export default function UserTab({ UsersData, questions }) {
           <tbody>
             {Object.values(UsersData).map((value, i) => {
               return (
-                <tr>
+                <tr key={"tr-" + i}>
                   <th scope="row">{i + 1}</th>
                   <td>{value.name}</td>
                   <td>{value.lastName}</td>
@@ -48,6 +57,7 @@ export default function UserTab({ UsersData, questions }) {
                       data-toggle="modal"
                       data-target="#exampleModal"
                       onClick={() => {
+                        console.log(value);
                         changeUser(value);
                       }}
                     >

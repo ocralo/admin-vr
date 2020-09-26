@@ -20,7 +20,11 @@ export default function UserTabVideo({ UsersData, questions }) {
     return Object.values(jsonFirebase)
       .map((value) => value)
       .map((value) => value.rating)
-      .reduce((accumulator, currentValue) => accumulator + currentValue);
+      .reduce((accumulator, currentValue) => {
+        let auxCurrentValue = 0;
+        currentValue ? (auxCurrentValue = currentValue) : (auxCurrentValue = 0);
+        return accumulator + auxCurrentValue;
+      });
   };
   return (
     <>
