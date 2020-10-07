@@ -113,7 +113,7 @@ export default function ModalRateVideo({ userData }) {
               </select>
             </div>
             <div className="form-group">
-              <label htmlFor="fluides">CREDIBILIDAD Y CONOCIMIENTO</label>
+              <label htmlFor="fluides">CREDIBILIDAD Y CONOCIMIENTO.</label>
               <select
                 className="form-control"
                 id="fluides"
